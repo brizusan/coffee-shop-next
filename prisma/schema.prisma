@@ -16,13 +16,37 @@ model Category {
 }
 
 model Product {
-  id Int @id @default(autoincrement())
-  name String
+  id    Int    @id @default(autoincrement())
+  name  String
   price Float
   image String
 
   // relaciones => llave foranea  , llave de origen
-  categoryId Int 
-  category Category @relation(fields: [categoryId] , references: [id])
+  categoryId Int
+  category   Category @relation(fields: [categoryId], references: [id])
 
+  // muchos a muchos
+
+  OrderProducts OrderProducts[]
+}
+
+model Order {
+  id Int @id @default(autoincrement())
+  name String
+  total Float
+  date DateTime @default(now())
+  status Boolean @default(false)
+  orderReadyAt DateTime?
+
+  // muchos a muchos
+  OrderProducts OrderProducts[]
+}
+
+model OrderProducts{
+  id Int @id @default(autoincrement())
+  orderId Int
+  order Order @relation(fields: [orderId], references: [id])
+  productId Int
+  product Product @relation(fields: [productId] , references: [id])
+  quantity Int
 }

@@ -1,12 +1,16 @@
 import { Product } from "@prisma/client";
 import Image from "next/image";
-import {formatCurrency} from "@/src/utils"
+import { formatCurrency } from "@/src/utils";
 import { ButtonOrder } from "../ui/add-order/ButtonOrder";
 
 type ProducItemProps = {
   product: Product;
 };
 export const ProducItem = ({ product }: ProducItemProps) => {
+  const isUrl = product.image.includes("cloudinary")
+    ? product.image
+    : `/products/${product.image}.jpg`;
+
   return (
     <>
       <div className="relative flex w-80 space-y-4 flex-col rounded-xl bg-orange-100 bg-clip-border text-gray-700 shadow-md">
@@ -14,7 +18,7 @@ export const ProducItem = ({ product }: ProducItemProps) => {
           <Image
             fill
             alt={`imagen de producto ${product.name}`}
-            src={`/products/${product.image}.jpg`}
+            src={isUrl}
             className="h-full w-full object-cover"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             priority
@@ -28,9 +32,7 @@ export const ProducItem = ({ product }: ProducItemProps) => {
             {formatCurrency(product.price)}
           </p>
         </div>
-        <ButtonOrder 
-          product={product}
-        />
+        <ButtonOrder product={product} />
       </div>
     </>
   );

@@ -1,4 +1,5 @@
 import { prisma } from "@/src/lib/prisma";
+import { ProductImage } from "./ProductImage";
 
 async function getCategories() {
   return await prisma.category.findMany();
@@ -47,12 +48,14 @@ export const ProductForm = async() => {
             categories.map((category)=>(
               <option
                 key={category.id}
-                value={category.slug}
+                value={category.id}
               >{category.nombre}</option>
             ))
           }
         </select>
       </div>
+
+      <ProductImage />
     </>
   );
 };

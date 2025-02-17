@@ -58,7 +58,7 @@ export default async function ProductsPage({
       <section className="max-w-7xl mx-auto w-11/12 lg:w-full mt-8 flex flex-col gap-3 md:flex-row justify-between">
         <Link
           href={"/admin/products/new"}
-          className="px-4 py-2 rounded-lg bg-amber-400 hover:bg-amber-500 transition-colors text-white capitalize font-semibold"
+          className="px-4 py-2 rounded-lg text-center bg-amber-400 hover:bg-amber-500 transition-colors text-white capitalize font-semibold"
         >
           crear producto
         </Link>

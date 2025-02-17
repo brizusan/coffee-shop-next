@@ -1,10 +1,11 @@
 "use client";
+import { getImagePath } from "@/src/utils";
 import { CameraIcon } from "@heroicons/react/24/outline";
 import { CldUploadWidget } from "next-cloudinary";
 import Image from "next/image";
 import { useState } from "react";
 
-export const ProductImage = () => {
+export const ProductImage = ({ image }: { image: string | undefined }) => {
   const [imageURL, setImageURL] = useState("");
   return (
     <CldUploadWidget
@@ -53,9 +54,28 @@ export const ProductImage = () => {
                 </div>
               )}
             </div>
+            {
+              image && !imageURL && (
+                <>
+                <p className="text-sm text-center font-semibold font-mono text-slate-500 " >
+                  Imagen actual
+                </p>
+                <div
+                  className="w-36 h-36 relative mx-auto"
+                >
+                  <Image 
+                    fill
+                    priority
+                    src={getImagePath(image)}
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    alt="imagen de producto"
+                  />
+                </div>
+                </>
+              )
+            }
+            <input type="hidden" name="image" value={imageURL ? imageURL : image} />
           </div>
-
-          <input type="hidden" name="image" value={imageURL} />
         </>
       )}
     </CldUploadWidget>

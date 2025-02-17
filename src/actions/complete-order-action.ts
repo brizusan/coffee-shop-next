@@ -16,6 +16,7 @@ export async function completeOrder (formData: FormData) : Promise<void> {
       }
 
     })
+
     revalidatePath('/admin/orders')
 
   } catch (error) {

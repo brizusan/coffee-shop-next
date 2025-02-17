@@ -1,24 +1,16 @@
 import { completeOrder } from "@/src/actions/complete-order-action";
 import { formatCurrency } from "@/src/utils";
-import { Order } from "@prisma/client";
+import type { OrderWithProducts } from "@/src/types";
 
 type OrderCardProps = {
-  order: Order & {
-    OrderProducts: {
-      product: {
-        name: string;
-        price: number;
-      };
-      quantity: number;
-    }[];
-  };
+  order:OrderWithProducts
 };
 
 export const OrderCard = ({ order }: OrderCardProps) => {
   return (
     <article
       aria-labelledby="summary-heading"
-      className="mt-16 relative font-mono rounded-lg bg-gray-50 px-4 py-6 sm:p-6  lg:mt-0 lg:p-8 space-y-4"
+      className="relative font-mono rounded-lg bg-gray-50 px-4 py-6 sm:p-6  lg:mt-0 lg:p-8 space-y-4"
     >
       <p className="text-xl font-medium  text-gray-900">
         Cliente: <span className="font-serif">{order.name}</span>{" "}

@@ -1,28 +1,21 @@
-
+"use client";
+import useSwr from "swr";
 import { OrderCard, Title } from "@/src/components";
-import { prisma } from "@/src/lib/prisma";
+import type { OrderWithProducts } from "@/src/types";
 
-async function getOrders() {
-  return await prisma.order.findMany({
-    where: {
-      status: false,
-    },
-    orderBy: {
-      date: "desc",
-    },
-    include: {
-      OrderProducts: {
-        include: {
-          product: true,
-        },
-      },
-    },
+const getOrders = async () => {
+  const res = await fetch("http://localhost:3000/admin/orders/api");
+  const orders = await res.json();
+  return orders;
+};
+
+export default function OrdersPage() {
+  const { data: orders, isLoading } = useSwr<OrderWithProducts[]>("orders", getOrders, {
+    refreshInterval: 1000 * 60, // intervalo de consulta 1 min
+    revalidateOnFocus: false, // no refrescar en el foco
   });
-}
-
-export default async function OrdersPage() {
-  const orders = await getOrders();
-  const isEmpty = orders.length === 0;
+  if (isLoading) return <div>Loading...</div>;
+  const isEmpty = orders?.length === 0;
 
   return (
     <>
@@ -37,15 +30,9 @@ export default async function OrdersPage() {
         </p>
       )}
 
-      <section className="grid grid-cols-1  lg:grid-cols-2 xl:grid-cols-3 gap-6 my-12 w-11/12 mx-auto lg:w-5/6">
-        {
-          orders.map((order) => (
-            <OrderCard 
-              key={order.id}
-              order={order}
-            />
-          ))
-        }
+      <section className="grid grid-cols-1  lg:grid-cols-2 xl:grid-cols-3 gap-6 my-6 lg:my-12 w-11/12 mx-auto lg:w-5/6">
+        {!isEmpty &&
+          orders?.map((order) => <OrderCard key={order.id} order={order} />)}
       </section>
     </>
   );

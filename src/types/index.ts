@@ -1,5 +1,5 @@
 import z, { number, string } from "zod";
-import { Product } from "@prisma/client";
+import { Product , Order as OrderProduct} from "@prisma/client";
 
 export type OrderItem = Pick<Product, "id" | "name" | "price"> & {
   quantity: number;
@@ -19,6 +19,16 @@ export const OrderSchema = z.object({
     })
   ),
 });
+
+export type OrderWithProducts = OrderProduct & { OrderProducts: {
+  product: {
+    name: string;
+    price: number;
+  };
+  quantity: number;
+}[]}
+
+
 
 export const SearchSchema = z.object({
   search: string().trim().min(3, "Mínimo 3 caracteres"),

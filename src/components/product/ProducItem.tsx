@@ -1,15 +1,14 @@
 import { Product } from "@prisma/client";
 import Image from "next/image";
-import { formatCurrency } from "@/src/utils";
+import { formatCurrency, getImagePath } from "@/src/utils";
 import { ButtonOrder } from "../ui/add-order/ButtonOrder";
 
 type ProducItemProps = {
   product: Product;
 };
 export const ProducItem = ({ product }: ProducItemProps) => {
-  const isUrl = product.image.includes("cloudinary")
-    ? product.image
-    : `/products/${product.image}.jpg`;
+  
+
 
   return (
     <>
@@ -18,7 +17,7 @@ export const ProducItem = ({ product }: ProducItemProps) => {
           <Image
             fill
             alt={`imagen de producto ${product.name}`}
-            src={isUrl}
+            src={getImagePath(product.image)}
             className="h-full w-full object-cover"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             priority

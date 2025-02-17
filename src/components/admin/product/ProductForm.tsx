@@ -1,11 +1,19 @@
 import { prisma } from "@/src/lib/prisma";
 import { ProductImage } from "./ProductImage";
+import { Product } from "@prisma/client";
+
+
+type ProductFormProps = {
+  product?: Product
+};
 
 async function getCategories() {
   return await prisma.category.findMany();
 }
 
-export const ProductForm = async() => {
+
+export const ProductForm = async({product}:ProductFormProps) => {
+
   const categories = await getCategories();
   return (
     <>
@@ -17,6 +25,7 @@ export const ProductForm = async() => {
           id="name"
           type="text"
           name="name"
+          defaultValue={product?.name}
           className="block w-full p-3 bg-slate-100"
           placeholder="Nombre Producto"
         />
@@ -29,6 +38,7 @@ export const ProductForm = async() => {
         <input
           id="price"
           name="price"
+          defaultValue={product?.price}
           className="block w-full p-3 bg-slate-100"
           placeholder="Precio Producto"
         />
@@ -42,6 +52,7 @@ export const ProductForm = async() => {
           className="block w-full p-3 bg-slate-100"
           id="categoryId"
           name="categoryId"
+          defaultValue={product?.categoryId}
         >
           <option value="">-- Seleccione --</option>
           {
@@ -55,7 +66,9 @@ export const ProductForm = async() => {
         </select>
       </div>
 
-      <ProductImage />
+      <ProductImage 
+        image={product?.image}
+      />
     </>
   );
 };

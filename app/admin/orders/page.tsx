@@ -1,19 +1,25 @@
 "use client";
-import useSwr from "swr";
 import { OrderCard, Title } from "@/src/components";
 import type { OrderWithProducts } from "@/src/types";
+import useSwr from "swr";
 
 const getOrders = async () => {
-  const res = await fetch("http://localhost:3000/admin/orders/api");
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/admin/orders/api`
+  );
   const orders = await res.json();
   return orders;
 };
 
 export default function OrdersPage() {
-  const { data: orders, isLoading } = useSwr<OrderWithProducts[]>("orders", getOrders, {
-    refreshInterval: 1000 * 60, // intervalo de consulta 1 min
-    revalidateOnFocus: false, // no refrescar en el foco
-  });
+  const { data: orders, isLoading } = useSwr<OrderWithProducts[]>(
+    "orders",
+    getOrders,
+    {
+      refreshInterval: 1000 * 60, // intervalo de consulta 1 min
+      revalidateOnFocus: false, // no refrescar en el foco
+    }
+  );
   if (isLoading) return <div>Loading...</div>;
   const isEmpty = orders?.length === 0;
 

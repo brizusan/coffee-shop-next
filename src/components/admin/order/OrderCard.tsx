@@ -1,9 +1,9 @@
 import { completeOrder } from "@/src/actions/complete-order-action";
-import { formatCurrency } from "@/src/utils";
 import type { OrderWithProducts } from "@/src/types";
+import { formatCurrency } from "@/src/utils";
 
 type OrderCardProps = {
-  order:OrderWithProducts
+  order: OrderWithProducts;
 };
 
 export const OrderCard = ({ order }: OrderCardProps) => {

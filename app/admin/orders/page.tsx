@@ -4,9 +4,8 @@ import type { OrderWithProducts } from "@/src/types";
 import useSwr from "swr";
 
 const getOrders = async () => {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/admin/orders/api`
-  );
+  const url = `${process.env.NEXT_PUBLIC_API_URL}/admin/orders/api`;
+  const res = await fetch(url);
   const orders = await res.json();
   return orders;
 };

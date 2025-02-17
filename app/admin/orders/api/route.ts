@@ -1,22 +1,23 @@
 import { prisma } from "@/src/lib/prisma";
 
+export const dynamic = "force-dynamic";
+
 export async function GET() {
-  
   try {
     const orders = await prisma.order.findMany({
       where: {
-        status: false
+        status: false,
       },
       include: {
         OrderProducts: {
           include: {
-            product: true
-          }
-        }
-      }
-    })
-    return Response.json(orders)
+            product: true,
+          },
+        },
+      },
+    });
+    return Response.json(orders);
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
 }
